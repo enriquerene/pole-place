@@ -298,21 +298,20 @@ class PolePlace_User {
         foreach ($users as $user) {
             $stats = self::get_user_stats($user->ID, $period);
             
-            // Only include users with sales
-            if ($stats['total_sales'] > 0) {
-                $users_with_stats[] = array(
-                    'id'                  => $user->ID,
-                    'name'                => $user->display_name,
-                    'email'               => $user->user_email,
-                    'total_sales'         => $stats['total_sales'],
-                    'order_count'         => $stats['order_count'],
-                    'commission'          => $stats['commission'],
-                    'net_earnings'        => $stats['net_earnings'],
-                    'product_count'       => $stats['product_count'],
-                    'average_order_value' => $stats['average_order_value'],
-                    'order_frequency'     => $stats['order_frequency'],
-                );
-            }
+            // Include all users, regardless of sales
+            $users_with_stats[] = array(
+                'id'                  => $user->ID,
+                'name'                => $user->display_name,
+                'email'               => $user->user_email,
+                'registered_date'     => $user->user_registered,
+                'total_sales'         => $stats['total_sales'],
+                'order_count'         => $stats['order_count'],
+                'commission'          => $stats['commission'],
+                'net_earnings'        => $stats['net_earnings'],
+                'product_count'       => $stats['product_count'],
+                'average_order_value' => $stats['average_order_value'],
+                'order_frequency'     => $stats['order_frequency'],
+            );
         }
         
         return $users_with_stats;
