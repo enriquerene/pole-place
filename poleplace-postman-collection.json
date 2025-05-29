@@ -1,0 +1,516 @@
+{
+	"info": {
+		"_postman_id": "a1b2c3d4-e5f6-g7h8-i9j0-k1l2m3n4o5p6",
+		"name": "PolePlace Marketplace API",
+		"description": "Coleção de endpoints da API do plugin PolePlace Marketplace para WordPress",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Autenticação",
+			"description": "Endpoints para autenticação via JWT",
+			"item": [
+				{
+					"name": "Obter Token JWT",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"seu_usuario\",\n    \"password\": \"sua_senha\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/wp-json/jwt-auth/v1/token",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"wp-json",
+								"jwt-auth",
+								"v1",
+								"token"
+							]
+						},
+						"description": "Obter token JWT para autenticação nas APIs protegidas"
+					},
+					"response": []
+				},
+				{
+					"name": "Validar Token JWT",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/wp-json/jwt-auth/v1/token/validate",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"wp-json",
+								"jwt-auth",
+								"v1",
+								"token",
+								"validate"
+							]
+						},
+						"description": "Validar um token JWT existente"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "API de Usuário",
+			"description": "Endpoints para gerenciamento de produtos e estatísticas do usuário",
+			"item": [
+				{
+					"name": "Listar Produtos do Usuário",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/wp-json/marketplace/v1/user/products",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"wp-json",
+								"marketplace",
+								"v1",
+								"user",
+								"products"
+							]
+						},
+						"description": "Listar todos os produtos do usuário autenticado"
+					},
+					"response": []
+				},
+				{
+					"name": "Criar Produto",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Nome do Produto\",\n    \"description\": \"Descrição detalhada do produto\",\n    \"short_description\": \"Descrição curta\",\n    \"regular_price\": \"99.99\",\n    \"sale_price\": \"79.99\",\n    \"categories\": [1, 2],\n    \"images\": [123, 456],\n    \"attributes\": [\n        {\n            \"name\": \"Cor\",\n            \"options\": [\"Vermelho\", \"Azul\", \"Verde\"]\n        }\n    ]\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/wp-json/marketplace/v1/user/products",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"wp-json",
+								"marketplace",
+								"v1",
+								"user",
+								"products"
+							]
+						},
+						"description": "Criar um novo produto para o usuário autenticado"
+					},
+					"response": []
+				},
+				{
+					"name": "Atualizar Produto",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Nome Atualizado\",\n    \"description\": \"Descrição atualizada\",\n    \"regular_price\": \"109.99\",\n    \"sale_price\": \"89.99\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/wp-json/marketplace/v1/user/products/{{product_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"wp-json",
+								"marketplace",
+								"v1",
+								"user",
+								"products",
+								"{{product_id}}"
+							]
+						},
+						"description": "Atualizar um produto existente do usuário autenticado"
+					},
+					"response": []
+				},
+				{
+					"name": "Excluir Produto",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/wp-json/marketplace/v1/user/products/{{product_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"wp-json",
+								"marketplace",
+								"v1",
+								"user",
+								"products",
+								"{{product_id}}"
+							]
+						},
+						"description": "Excluir um produto do usuário autenticado"
+					},
+					"response": []
+				},
+				{
+					"name": "Estatísticas do Usuário",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/wp-json/marketplace/v1/user/stats",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"wp-json",
+								"marketplace",
+								"v1",
+								"user",
+								"stats"
+							]
+						},
+						"description": "Obter estatísticas do usuário autenticado"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "API de Marketplace",
+			"description": "Endpoints públicos para consulta de produtos e criação de pedidos",
+			"item": [
+				{
+					"name": "Listar Produtos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/wp-json/marketplace/v1/products?per_page=10&page=1&category=eletronicos&search=smartphone&min_price=100&max_price=1000&orderby=price&order=asc",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"wp-json",
+								"marketplace",
+								"v1",
+								"products"
+							],
+							"query": [
+								{
+									"key": "per_page",
+									"value": "10",
+									"description": "Número de produtos por página"
+								},
+								{
+									"key": "page",
+									"value": "1",
+									"description": "Número da página"
+								},
+								{
+									"key": "category",
+									"value": "eletronicos",
+									"description": "Slug da categoria"
+								},
+								{
+									"key": "search",
+									"value": "smartphone",
+									"description": "Termo de busca"
+								},
+								{
+									"key": "min_price",
+									"value": "100",
+									"description": "Preço mínimo"
+								},
+								{
+									"key": "max_price",
+									"value": "1000",
+									"description": "Preço máximo"
+								},
+								{
+									"key": "orderby",
+									"value": "price",
+									"description": "Campo para ordenação"
+								},
+								{
+									"key": "order",
+									"value": "asc",
+									"description": "Direção da ordenação (asc/desc)"
+								}
+							]
+						},
+						"description": "Listar produtos do marketplace com filtros opcionais"
+					},
+					"response": []
+				},
+				{
+					"name": "Obter Produto",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/wp-json/marketplace/v1/products/{{product_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"wp-json",
+								"marketplace",
+								"v1",
+								"products",
+								"{{product_id}}"
+							]
+						},
+						"description": "Obter detalhes de um produto específico"
+					},
+					"response": []
+				},
+				{
+					"name": "Criar Pedido",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"payment_method\": \"bacs\",\n    \"payment_method_title\": \"Transferência Bancária\",\n    \"billing\": {\n        \"first_name\": \"João\",\n        \"last_name\": \"Silva\",\n        \"address_1\": \"Rua Exemplo, 123\",\n        \"address_2\": \"Apto 45\",\n        \"city\": \"São Paulo\",\n        \"state\": \"SP\",\n        \"postcode\": \"01234-567\",\n        \"country\": \"BR\",\n        \"email\": \"joao@exemplo.com\",\n        \"phone\": \"(11) 98765-4321\"\n    },\n    \"shipping\": {\n        \"first_name\": \"João\",\n        \"last_name\": \"Silva\",\n        \"address_1\": \"Rua Exemplo, 123\",\n        \"address_2\": \"Apto 45\",\n        \"city\": \"São Paulo\",\n        \"state\": \"SP\",\n        \"postcode\": \"01234-567\",\n        \"country\": \"BR\"\n    },\n    \"line_items\": [\n        {\n            \"product_id\": 123,\n            \"quantity\": 2\n        },\n        {\n            \"product_id\": 456,\n            \"quantity\": 1\n        }\n    ]\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/wp-json/marketplace/v1/orders",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"wp-json",
+								"marketplace",
+								"v1",
+								"orders"
+							]
+						},
+						"description": "Criar um novo pedido no marketplace"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "API de Administração",
+			"description": "Endpoints para administradores do marketplace",
+			"item": [
+				{
+					"name": "Estatísticas do Marketplace",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/wp-json/marketplace/v1/admin/stats?period=month",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"wp-json",
+								"marketplace",
+								"v1",
+								"admin",
+								"stats"
+							],
+							"query": [
+								{
+									"key": "period",
+									"value": "month",
+									"description": "Período (day, week, month, year, all)"
+								}
+							]
+						},
+						"description": "Obter estatísticas gerais do marketplace (apenas para administradores)"
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Usuários",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/wp-json/marketplace/v1/admin/users?period=month",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"wp-json",
+								"marketplace",
+								"v1",
+								"admin",
+								"users"
+							],
+							"query": [
+								{
+									"key": "period",
+									"value": "month",
+									"description": "Período (day, week, month, year, all)"
+								}
+							]
+						},
+						"description": "Listar todos os usuários com estatísticas (apenas para administradores)"
+					},
+					"response": []
+				},
+				{
+					"name": "Obter Usuário",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/wp-json/marketplace/v1/admin/users/{{user_id}}?period=month",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"wp-json",
+								"marketplace",
+								"v1",
+								"admin",
+								"users",
+								"{{user_id}}"
+							],
+							"query": [
+								{
+									"key": "period",
+									"value": "month",
+									"description": "Período (day, week, month, year, all)"
+								}
+							]
+						},
+						"description": "Obter detalhes de um usuário específico (apenas para administradores)"
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://seu-site-wordpress.com",
+			"type": "string",
+			"description": "URL base do seu site WordPress"
+		},
+		{
+			"key": "jwt_token",
+			"value": "",
+			"type": "string",
+			"description": "Token JWT obtido na autenticação"
+		},
+		{
+			"key": "product_id",
+			"value": "",
+			"type": "string",
+			"description": "ID do produto para operações específicas"
+		},
+		{
+			"key": "user_id",
+			"value": "",
+			"type": "string",
+			"description": "ID do usuário para operações específicas"
+		}
+	]
+}
